@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preparation — Interview Revision</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:#f5f6fa;color:#16181d}
+.header{background:#17191f;color:#fff;padding:30px 18px}.header-inner{max-width:1100px;margin:auto}
+.header h1{margin:0;font-size:30px}.header p{margin:7px 0 0;color:#bfc3cc}
+.container{max-width:1100px;margin:auto;padding:20px}
+.search{width:100%;padding:15px 17px;border:1px solid #dfe2e8;border-radius:13px;background:#fff;font-size:16px;outline:none;margin-bottom:18px}
+.layout{display:grid;grid-template-columns:235px 1fr;gap:18px}
+.sidebar{background:#fff;border:1px solid #e1e3e8;border-radius:15px;padding:10px;height:max-content;position:sticky;top:15px}
+.sidebar button{width:100%;border:0;background:transparent;text-align:left;padding:12px 13px;border-radius:9px;cursor:pointer;font-size:14px;color:#30343b}
+.sidebar button:hover,.sidebar button.active{background:#eef0ff;color:#4038c9;font-weight:700}
+.content{background:#fff;border:1px solid #e1e3e8;border-radius:15px;padding:30px}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef0ff;color:#4038c9;font-size:12px;font-weight:700}
+h2{font-size:29px;margin:10px 0 25px}h3{font-size:21px;margin:0 0 10px}
+.topic{border-top:1px solid #e8e9ed;padding:23px 0}.topic:first-of-type{border-top:0}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#737985;font-weight:800;margin-bottom:7px}
+.answer{font-size:17px;line-height:1.65}.shortcut{background:#faf7e9;border-left:4px solid #d2a900;padding:14px 16px;border-radius:7px;line-height:1.55}
+.example{background:#f6f7f9;padding:14px 16px;border-radius:9px;line-height:1.55}
+pre{background:#17191f;color:#f3f4f6;padding:17px;border-radius:10px;overflow:auto;line-height:1.5}
+ul{line-height:1.7}.question{background:#f4f5ff;border-radius:9px;padding:14px 16px;margin-top:10px}
+.footer{color:#747984;text-align:center;font-size:13px;padding:25px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{position:static}.content{padding:20px}.header h1{font-size:25px}h2{font-size:25px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="header-inner">
+<h1>📚 Interview Preparation</h1>
+<p>Learn → understand → remember → revise</p>
+</div></header>
+
+<div class="container">
+<input id="search" class="search" placeholder="Search a topic or concept...">
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+<main class="content" id="content"></main>
+</div>
+<div class="footer">Preparation website • Built for revision</div>
+</div>
+
+<script>
+const topics=[
+{key:"oops",name:"OOP Concepts",category:"Programming",complete:true,items:[
+["What is OOP?","OOP (Object-Oriented Programming) is a programming approach where programs are organized around objects that contain data and methods.","Think: Real-world things → Objects → Data + Actions.","Example: A Student object can have name and age (data) and study() (action)."],
+["Class","A class is a blueprint or template used to create objects. It defines the data and behavior that its objects can have.","Class = Blueprint.","Example: Student is a class; it describes what a student object should contain."],
+["Object","An object is an instance of a class. It is the actual entity created from the class.","Class = Blueprint; Object = Actual thing built from it.","Example: s1 = Student('Ram') creates an object s1."],
+["Constructor","A constructor initializes an object when it is created. In Python, __init__() is used for initialization.","Constructor = Setup when object is born.","Example: __init__(self,name) stores the initial name of a Student."],
+["self","self refers to the current object. It lets an object access its own attributes and methods.","self = current object.","Example: if s1 = Student('Ram'), then inside that object's method, self refers to s1."],
+["Parameter vs Object Attribute","In self.name = name, name is the parameter received by the method, while self.name is the attribute stored inside the current object.","name = incoming value; self.name = value stored in the object.","Example: Student('Ram') → name gets 'Ram', then self.name stores 'Ram' in that object."],
+["Encapsulation","Encapsulation means bundling related data and methods together in a class and controlling access to the internal data.","Encapsulation = Bundle + protect/control access.","Example: A BankAccount keeps balance with deposit() and withdraw() methods instead of letting code freely change the balance."],
+["Abstraction","Abstraction means hiding unnecessary implementation details and exposing only the functionality the user needs.","Abstraction = Hide complexity; show essentials.","Example: In an ATM, you choose Withdraw without knowing the bank's internal transaction process."],
+["Encapsulation vs Abstraction","Encapsulation focuses on bundling data with methods and controlling access. Abstraction focuses on hiding implementation complexity and showing essential behavior.","Encapsulation → DATA/control. Abstraction → IMPLEMENTATION/complexity.","Example: ATM internal data/control relates to encapsulation; using Withdraw without knowing internal processing is abstraction."],
+["Inheritance","Inheritance allows a child class to reuse and extend properties or methods of a parent class.","Inheritance = Reuse parent.","Example: Dog can inherit eat() from Animal and add bark()."],
+["Types of Inheritance","The common types are Single, Multilevel, Multiple, Hierarchical, and Hybrid inheritance.","Single: A→B | Multilevel: A→B→C | Multiple: A+B→C | Hierarchical: A→B,C | Hybrid: combination.","Example: Animal→Dog is single; Animal→Dog→Puppy is multilevel; Animal→Dog and Animal→Cat is hierarchical."],
+["Method Overriding","Method overriding occurs when a child class provides its own implementation of a method inherited from its parent.","Overriding = Child changes parent's behavior.","Example: Animal.sound() exists, but Dog.sound() prints 'Bark'."],
+["Method Overloading","Method overloading means using the same method name with different parameter lists. Python does not support traditional compile-time overloading like Java.","Overloading = Same name, different inputs.","Example in Java: add(a,b) and add(a,b,c). In Python, default arguments or *args are commonly used for similar behavior."],
+["Polymorphism","Polymorphism allows the same interface or method call to produce different behavior depending on the object.","Poly = many; morph = forms.","Example: Dog.sound() gives Bark while Cat.sound() gives Meow."],
+["Duck Typing","Duck typing is Python's style of polymorphism where an object's usable behavior matters more than its exact type.","If it can do the job, use it.","Example: a function calling animal.sound() can work with Dog or Cat as long as the object provides sound()."],
+["super()","super() is used in a child class to access a parent class's methods or constructor.","super() = Go to my parent.","Example: super().__init__(name) calls the parent's constructor."],
+["Abstract Class","An abstract class provides a common structure for subclasses and can contain abstract methods that subclasses are required to implement.","Abstract class = Common structure + required behavior.","Example: Animal can require every child class to implement sound()."],
+["Interface","In Java, an interface acts as a contract: classes that implement it must provide the required methods.","Interface = Contract.","Example: Vehicle can require start(); Car and Bike provide their own start() implementations."],
+["OOP Interview Revision","Be ready to explain the four pillars, class vs object, constructor, self, super(), inheritance types, overriding vs overloading, polymorphism, encapsulation vs abstraction, and abstract class vs interface.","Four pillars: Encapsulation → Abstraction → Inheritance → Polymorphism.","Example questions: 'What is OOP?', 'Difference between abstraction and encapsulation?', 'What is overriding?', 'What does super() do?'."]]},
+{key:"dbms",name:"DBMS",category:"CS Core",complete:false,items:[["Status","DBMS will be added here when we complete the topic together.","Next completed topic will be added without changing this website structure.",""]]},
+{key:"sql",name:"SQL",category:"CS Core",complete:false,items:[["Status","SQL revision notes will be added here after we learn the topic.","Learn → understand → remember → revise.",""]]},
+{key:"dsa",name:"DSA",category:"DSA",complete:false,items:[["Status","DSA topics will be added here as we complete them.","Each concept will follow the same revision workflow.",""]]},
+{key:"os",name:"Operating Systems",category:"CS Core",complete:false,items:[["Status","OS revision notes will be added here after we learn the topic.","Each completed concept will be preserved for revision.",""]]},
+{key:"cn",name:"Computer Networks",category:"CS Core",complete:false,items:[["Status","CN revision notes will be added here after we learn the topic.","Each topic will use the same format.",""]]},
+{key:"projects",name:"Projects",category:"Resume",complete:false,items:[["Status","Project explanations will be added here.","Problem → explanation → workflow → technologies → interview answer.",""]]},
+{key:"hr",name:"HR Interview",category:"Interview",complete:false,items:[["Status","HR preparation will be added here.","Question → strong answer → remember points → examples.",""]]}
+];
+
+const sidebar=document.getElementById("sidebar"),content=document.getElementById("content"),search=document.getElementById("search");
+function renderNav(q=""){
+sidebar.innerHTML="";
+topics.filter(t=>(t.name+" "+t.category).toLowerCase().includes(q.toLowerCase())).forEach(t=>{
+let b=document.createElement("button");b.dataset.key=t.key;b.textContent=(t.complete?"✓ ":"○ ")+t.name;b.onclick=()=>show(t.key);sidebar.appendChild(b)
+})}
+function show(key){
+const t=topics.find(x=>x.key===key)||topics[0];
+document.querySelectorAll(".sidebar button").forEach(b=>b.classList.toggle("active",b.dataset.key===key));
+let out=`<span class="badge">${t.category}</span><h2>${t.name}</h2>`;
+t.items.forEach((x,i)=>{
+out+=`<section class="topic"><h3>${i+1}. ${x[0]}</h3><div class="label">Definition / Interview Answer</div><div class="answer">${x[1]}</div><div class="label" style="margin-top:17px">Shortcut to Remember</div><div class="shortcut">${x[2]}</div>${x[3]?`<div class="label" style="margin-top:17px">Example</div><div class="example">${x[3]}</div>`:""}</section>`;
+});
+content.innerHTML=out;
+}
+search.addEventListener("input",()=>{renderNav(search.value);show("oops")});
+renderNav();show("oops");
+</script>
+</body>
+</html>
